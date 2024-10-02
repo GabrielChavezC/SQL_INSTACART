@@ -1,3 +1,7 @@
+import sys
+import os
+# Añadir el directorio padre al PYTHONPATH
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import sqlite3
 import pandas as pd 
 import matplotlib.pyplot as plt 
