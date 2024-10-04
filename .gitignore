@@ -20,6 +20,8 @@
 *.code-workspace
 *.pmml
 *.jar
+/.sql_venv
+
 
 # R
 
