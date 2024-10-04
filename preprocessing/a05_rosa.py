@@ -47,15 +47,18 @@ for row in results:
 # 4. Diferencia entre miércoles y sábados para 'order_hour_of_day'. Traza gráficos de barra para los dos días y describe las diferencias que veas.
 
 # Consulta SQL
-query_4 = '''
-SELECT strftime('%H', o.order_hour_of_day) AS order_hour_of_day,
-       COUNT(o.order_id) AS order_count,
-       strftime('%w', o.order_dow AS order_dow
+query_4 ='''
+SELECT  o.order_hour_of_day) AS order_hour_of_day
+COUNT(o.order_id) AS order_count,
+        (o.order_dow) AS day_of_week
 FROM order_products o
 WHERE order_dow IN ('3', '6')  -- 3 es miércoles, 6 es sábado
 GROUP BY order_hour_of_day, order_dow
 ORDER BY order_hour_of_day
 '''
+
+graf_4 = pd.read_sql_query(query_4, conn)
+print(graf_4)
 
 # Ejecutar la consulta
 cursor = conn.cursor()
@@ -69,8 +72,10 @@ df = pd.DataFrame(data, columns=['order_hour_of_day', 'order_count', 'order_dow'
 df['day_of_week'] = df['order_dow'].replace({'3': 'Wednesday', '6': 'Saturday'})
 df['order_hour_of_day'] = df['order_hour_of_day'].astype(int)  # Convertir a int
 
+
+
 # Gráfico de barras
-plt.figure(figsize=(12, 6))
+graf_4.plt.figure(figsize=(12, 6))
 for day in df['day_of_week'].unique():
     subset = df[df['day_of_week'] == day]
     plt.bar(subset['order_hour_of_day'] + (0.2 if day == 'Wednesday' else -0.2), 
