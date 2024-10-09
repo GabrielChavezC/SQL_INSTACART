@@ -32,6 +32,33 @@ def respuesta_tres():
 
 # 4. Diferencia entre miércoles y sábados para `'order_hour_of_day'`. Traza gráficos de barra para los dos días y describe las diferencias que veas.
 
+
+def respuesta_cuatro():
+    query4 = '''
+    SELECT order_dow, order_hour_of_day, COUNT(order_id) AS total_pedidos
+    FROM instacart_orders
+    WHERE order_dow = 3 or order_dow = 6
+    GROUP BY order_dow, order_hour_of_day
+    ORDER BY order_dow, order_hour_of_day;
+    '''
+    graf4 = pd.read_sql_query(query4, conn)
+    print(graf4)
+
+    # Acomodar los datos para una mejor gráfica
+    graf4_pivot = graf4.pivot(
+        index='order_hour_of_day', columns='order_dow', values='total_pedidos')
+
+    ax = graf4_pivot.plot(kind='bar',
+                          figsize=(10, 6),
+                          title="Comparación de pedidos entre Miércoles y Sábados por hora del día",
+                          xlabel="Hora del día",
+                          ylabel="Número de pedidos",
+                          legend=False)
+
+    ax.legend(['Miércoles', 'Sábado'])
+    plt.show()
+
+
 # 7. ¿Cuántos artículos compran normalmente las personas en un pedido? ¿Cómo es la distribución?
 
 
@@ -49,14 +76,26 @@ def respuesta_siete():
     graf_7 = pd.read_sql_query(query7, conn)
     print(graf_7)
 
-    plt.figure(figsize=(10, 6))
-    plt.bar(graf_7['num_articulos'], graf_7['num_pedidos'], color='skyblue')
+    # Conocer el limite del 3er cuartil para delimitar el siguien gráfico
+    sns.boxplot(x=graf_7['num_articulos'])
+
     plt.title('Distribución del número de artículos por pedido')
+    plt.xlabel('Número de artículos por pedido')
+
+    plt.show()
+
+    # Se realiza el gráfico hasta el número aproximado del 3er cuartil, el 75% de los datos
+    graf_7_filtrado = graf_7[graf_7['num_articulos'] <= 70]
+
+    # Crear el gráfico de barras
+    plt.figure(figsize=(10, 6))
+    plt.bar(graf_7_filtrado['num_articulos'],
+            graf_7_filtrado['num_pedidos'])
+    plt.title('Distribución del número de artículos por pedido (hasta 70)')
     plt.xlabel('Número de artículos por pedido')
     plt.ylabel('Número de pedidos')
     plt.xticks(rotation=90)
     plt.grid(True)
-
     plt.show()
 
 
@@ -83,3 +122,4 @@ def respuesta_diez():
 respuesta_tres()
 respuesta_siete()
 respuesta_diez()
+respuesta_cuatro()
