@@ -5,6 +5,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import sqlite3
 import pandas as pd 
+import seaborn as sbn
 import matplotlib.pyplot as plt 
 
 
@@ -19,65 +20,89 @@ GROUP BY p.product_id, p.product_name
 ORDER BY count_products DESC
 LIMIT 20
 '''
+graf_6 = pd.read_sql_query(query_6, conn)
+print(graf_6)
 
-cursor = conn.cursor()  
-cursor.execute(query_6)    
-results = cursor.fetchall() 
+#Graficando el resultado de la consulta
+plt.figure(figsize=(10, 6))
 
-for row in results:
-    print(f"ID: {row[0]}, Producto: {row[1]}, Cantidad: {row[2]}")
+# Crear la gráfica de barras con Matplotlib
+plt.barh(graf_6['product_name'], graf_6['count_products'], color='skyblue')
+
+# Añadir títulos y etiquetas
+plt.title('Top 20 productos más populares', fontsize=16)
+plt.xlabel('Número de productos vendidos')
+plt.ylabel('Nombre del producto')
+
+# Invertir el orden del eje y para que el producto más vendido esté arriba
+plt.gca().invert_yaxis()
+
+# Mostrar la gráfica
+plt.tight_layout()
+plt.show()
+
+#los articulos mas populares son las Bananas, son los que mas sobresalen de los 20 mas populares
 
 # 11.¿Cuáles son los 20 principales artículos que las personas ponen primero en sus carritos?
 
 query_11 = '''
-SELECT p.product_name, COUNT(o.product_id) AS add_to_cart_order
+SELECT p.product_name, COUNT(o.product_id) AS count_first_added
 FROM order_products o
 JOIN products p ON o.product_id = p.product_id
-GROUP BY o.product_id
-ORDER BY add_to_cart_order DESC
-LIMIT 20
+WHERE o.add_to_cart_order = 1
+GROUP BY o.product_id, p.product_name
+ORDER BY count_first_added DESC
+LIMIT 20;
 '''
-cursor = conn.cursor()  # Crear un cursor para ejecutar la consulta
-cursor.execute(query_11)    # Ejecutar la consulta
-results = cursor.fetchall()  # Obtener todos los resultados
+graf_11 = pd.read_sql_query(query_11, conn)
+print(graf_11)
 
-for row in results:
-    print(f"Producto: {row[0]}")
+#Graficando el resultado de la consulta
+plt.figure(figsize=(10, 6))
+
+# Crear la gráfica de barras con Matplotlib
+plt.barh(graf_11['product_name'], graf_11['count_first_added'], color='skyblue')
+
+# Añadir títulos y etiquetas
+plt.title('Top 20 productos elegidos en primer lugar', fontsize=16)
+plt.xlabel('Número de veces añadido al carrito')
+plt.ylabel('Nombre del producto')
+
+# Invertir el orden del eje y para que el producto más vendido esté arriba
+plt.gca().invert_yaxis()
+
+# Mostrar la gráfica
+plt.tight_layout()
+plt.show()
+#Nuevamente las Bananas son los productos que los clientes ponen primero en su carrito, los productos organicos tambien destacan.
 
 # 4. Diferencia entre miércoles y sábados para 'order_hour_of_day'. Traza gráficos de barra para los dos días y describe las diferencias que veas.
 
 # Consulta SQL
 query_4 ='''
-SELECT  o.order_hour_of_day) AS order_hour_of_day
-COUNT(o.order_id) AS order_count,
-        (o.order_dow) AS day_of_week
-FROM order_products o
-WHERE order_dow IN ('3', '6')  -- 3 es miércoles, 6 es sábado
-GROUP BY order_hour_of_day, order_dow
-ORDER BY order_hour_of_day
+SELECT o.order_hour_of_day AS order_hour_of_day,
+       COUNT(o.order_id) AS order_count,
+       o.order_dow AS day_of_week
+FROM order_products 
+WHERE o.order_dow IN ('3', '6')  -- 3 es miércoles, 6 es sábado
+GROUP BY o.order_hour_of_day, o.order_dow
+ORDER BY o.order_hour_of_day;
 '''
 
 graf_4 = pd.read_sql_query(query_4, conn)
 print(graf_4)
 
-# Ejecutar la consulta
-cursor = conn.cursor()
-cursor.execute(query_4)
-
-# Cargar los resultados en un DataFrame
-data = cursor.fetchall()
-df = pd.DataFrame(data, columns=['order_hour_of_day', 'order_count', 'order_dow'])
 
 # Convertir 'order_dow' a un nombre legible
-df['day_of_week'] = df['order_dow'].replace({'3': 'Wednesday', '6': 'Saturday'})
-df['order_hour_of_day'] = df['order_hour_of_day'].astype(int)  # Convertir a int
+graf_4['day_of_week'] = graf_4['order_dow'].replace({'3': 'Wednesday', '6': 'Saturday'})
+graf_4['order_hour_of_day'] = graf_4['order_hour_of_day'].astype(int)  # Convertir a int
 
 
 
 # Gráfico de barras
 graf_4.plt.figure(figsize=(12, 6))
-for day in df['day_of_week'].unique():
-    subset = df[df['day_of_week'] == day]
+for day in graf_4['day_of_week'].unique():
+    subset = graf_4[graf_4['day_of_week'] == day]
     plt.bar(subset['order_hour_of_day'] + (0.2 if day == 'Wednesday' else -0.2), 
             subset['order_count'], 
             width=0.4, 
@@ -90,3 +115,5 @@ plt.xticks(range(24))  # Asegúrate de que todas las horas estén representadas
 plt.legend()
 plt.grid()
 plt.show()
+
+#
