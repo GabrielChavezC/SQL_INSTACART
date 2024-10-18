@@ -40,13 +40,13 @@ print(graf_11)
 
 # Consulta SQL
 query_4 ='''
-SELECT  o.order_hour_of_day) AS order_hour_of_day
-COUNT(o.order_id) AS order_count,
-        (o.order_dow) AS day_of_week
+SELECT o.order_hour_of_day AS order_hour_of_day,
+       COUNT(o.order_id) AS order_count,
+       o.order_dow AS day_of_week
 FROM order_products o
-WHERE order_dow IN ('3', '6')  -- 3 es miércoles, 6 es sábado
-GROUP BY order_hour_of_day, order_dow
-ORDER BY order_hour_of_day
+WHERE o.order_dow IN ('3', '6')  -- 3 es miércoles, 6 es sábado
+GROUP BY o.order_hour_of_day, o.order_dow
+ORDER BY o.order_hour_of_day;
 '''
 
 graf_4 = pd.read_sql_query(query_4, conn)
