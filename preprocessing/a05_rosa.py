@@ -46,12 +46,13 @@ plt.show()
 # 11.¿Cuáles son los 20 principales artículos que las personas ponen primero en sus carritos?
 
 query_11 = '''
-SELECT p.product_name, COUNT(o.product_id) AS add_to_cart_order
+SELECT p.product_name, COUNT(o.product_id) AS count_first_added
 FROM order_products o
 JOIN products p ON o.product_id = p.product_id
-GROUP BY o.product_id
-ORDER BY add_to_cart_order DESC
-LIMIT 20
+WHERE o.add_to_cart_order = 1
+GROUP BY o.product_id, p.product_name
+ORDER BY count_first_added DESC
+LIMIT 20;
 '''
 graf_11 = pd.read_sql_query(query_11, conn)
 print(graf_11)
@@ -60,11 +61,11 @@ print(graf_11)
 plt.figure(figsize=(10, 6))
 
 # Crear la gráfica de barras con Matplotlib
-plt.barh(graf_11['product_name'], graf_11['add_to_cart_order'], color='skyblue')
+plt.barh(graf_11['product_name'], graf_11['count_first_added'], color='skyblue')
 
 # Añadir títulos y etiquetas
 plt.title('Top 20 productos elegidos en primer lugar', fontsize=16)
-plt.xlabel('Número de productos vendidos')
+plt.xlabel('Número de veces añadido al carrito')
 plt.ylabel('Nombre del producto')
 
 # Invertir el orden del eje y para que el producto más vendido esté arriba
