@@ -59,24 +59,24 @@ Hay cinco tablas en el conjunto de datos, y tendrás que usarlas todas para hace
 
 ---
 
-1. Para cada hora del día, ¿cuántas personas hacen órdenes?
+1. Para cada hora del día, ¿cuántas personas hacen órdenes? Gabriel ✅
 
-2. ¿Qué día de la semana compran víveres las personas?
+2. ¿Qué día de la semana compran víveres las personas? Ruben ✅
 
-3. ¿Cuánto tiempo esperan las personas hasta hacer otro pedido? Comenta sobre los valores mínimos y máximos.
+3. ¿Cuánto tiempo esperan las personas hasta hacer otro pedido? Comenta sobre los valores mínimos y máximos. Carol ✅
 
-4. Diferencia entre miércoles y sábados para `'order_hour_of_day'`. Traza gráficos de barra para los dos días y describe las diferencias que veas.
+4. Diferencia entre miércoles y sábados para `'order_hour_of_day'`. Traza gráficos de barra para los dos días y describe las diferencias que veas. (pendiente)
 
-5. ¿Cuál es la distribución para el número de pedidos por cliente?
+5. ¿Cuál es la distribución para el número de pedidos por cliente? Ruben✅
 
-6. ¿Cuáles son los 20 productos más populares (muestra su ID y nombre)?
+6. ¿Cuáles son los 20 productos más populares (muestra su ID y nombre)? Rosa ❌
 
-7. ¿Cuántos artículos compran normalmente las personas en un pedido? ¿Cómo es la distribución?
+7. ¿Cuántos artículos compran normalmente las personas en un pedido? ¿Cómo es la distribución? Carol ✅
 
-8. ¿Cuáles son los 20 principales artículos que vuelven a pedirse con mayor frecuencia (muestra sus nombres e IDs de los productos)?
+8. ¿Cuáles son los 20 principales artículos que vuelven a pedirse con mayor frecuencia (muestra sus nombres e IDs de los productos)? Gabriel ✅
 
-9. Para cada producto, ¿cuál es la proporción de las veces que se pide y que se vuelve a pedir?
+9. Para cada producto, ¿cuál es la proporción de las veces que se pide y que se vuelve a pedir? Ruben ❌
 
-10. Para cada cliente, ¿qué proporción de sus productos ya los había pedido?
+10. Para cada cliente, ¿qué proporción de sus productos ya los había pedido? Carol ✅
 
-11. ¿Cuáles son los 20 principales artículos que las personas ponen primero en sus carritos?
+11. ¿Cuáles son los 20 principales artículos que las personas ponen primero en sus carritos? Rosa ❌

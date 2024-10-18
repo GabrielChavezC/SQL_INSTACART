@@ -31,7 +31,51 @@ def respuesta_tres():
     plt.xticks(ticks=range(0, 30), labels=range(1, 31))
     plt.show()
 
+
+# COMENTARIO CONCLUYENDES DE LA GRÁFICA
+'''De acuerdo con los datos, observamos que los clientes tienden a realizar 
+un segundo pedido después de 7 días o 30 días, siendo estos los picos más 
+altos en la recurrencia de compras. Este patrón sugiere que los clientes 
+podrían estar planificando sus adquisiciones de manera semanal o mensual. 
+Sería recomendable analizar el tipo de productos solicitados en función de
+estos intervalos.'''
+
+
 # 4. Diferencia entre miércoles y sábados para `'order_hour_of_day'`. Traza gráficos de barra para los dos días y describe las diferencias que veas.
+
+
+def respuesta_cuatro():
+    query4 = '''
+    SELECT order_dow, order_hour_of_day, COUNT(order_id) AS total_pedidos
+    FROM instacart_orders
+    WHERE order_dow = 3 or order_dow = 6
+    GROUP BY order_dow, order_hour_of_day
+    ORDER BY order_dow, order_hour_of_day;
+    '''
+    graf4 = pd.read_sql_query(query4, conn)
+    print(graf4)
+
+    # Acomodar los datos para una mejor gráfica
+    graf4_pivot = graf4.pivot(
+        index='order_hour_of_day', columns='order_dow', values='total_pedidos')
+
+    ax = graf4_pivot.plot(kind='bar',
+                          figsize=(10, 6),
+                          title="Comparación de pedidos entre Miércoles y Sábados por hora del día",
+                          xlabel="Hora del día",
+                          ylabel="Número de pedidos",
+                          legend=False)
+
+    ax.legend(['Miércoles', 'Sábado'])
+    plt.show()
+
+
+'''La mayoría de las órdenes por cliente se concentra entre las primeras 5 
+a 10 compras, mostrando una disminución gradual a medida que aumenta el 
+número de órdenes. Esta tendencia puede deberse a diversas razones que no 
+se pueden identificar claramente en este gráfico. Sería útil analizar el 
+tiempo que el cliente lleva registrado en la plataforma y cuántas órdenes 
+ha realizado durante ese período para obtener una mejor comprensión del comportamiento.'''
 
 # 7. ¿Cuántos artículos compran normalmente las personas en un pedido? ¿Cómo es la distribución?
 
@@ -50,18 +94,39 @@ def respuesta_siete():
     graf_7 = pd.read_sql_query(query7, conn)
     print(graf_7)
 
-    plt.figure(figsize=(10, 6))
-    plt.bar(graf_7['num_articulos'], graf_7['num_pedidos'], color='skyblue')
+    # Conocer el limite del 3er cuartil para delimitar el siguien gráfico
+    sns.boxplot(x=graf_7['num_articulos'])
+
     plt.title('Distribución del número de artículos por pedido')
+    plt.xlabel('Número de artículos por pedido')
+
+    plt.show()
+
+    # Se realiza el gráfico hasta el número aproximado del 3er cuartil, el 75% de los datos
+    graf_7_filtrado = graf_7[graf_7['num_articulos'] <= 70]
+
+    # Crear el gráfico de barras
+    plt.figure(figsize=(10, 6))
+    plt.bar(graf_7_filtrado['num_articulos'],
+            graf_7_filtrado['num_pedidos'])
+    plt.title('Distribución del número de artículos por pedido (hasta 70)')
     plt.xlabel('Número de artículos por pedido')
     plt.ylabel('Número de pedidos')
     plt.xticks(rotation=90)
     plt.grid(True)
-
     plt.show()
 
 
+'''Se decide usar un gráfico de bigotes para poder delimitar el número 
+de artículos en cada pedido, considerando el límite del 3er cuartil. Esto
+nos lleva a delimitar nuestro gráfico hasta 70 artículos por pedido. 
+En el segundo gráfico, se observa que el punto máximo del gráfico se localiza
+en el número 5, visualmente podemos determinar que la mayoria de los pedidos
+serán solicitados por 1 hasta 10 pedidos, donde comienza un decremento gradual
+llegando a sus mínimos al rededor de 49 artículos.'''
+
 # 10. Para cada cliente, ¿qué proporción de sus productos ya los había pedido?
+
 
 def respuesta_diez():
     query10 = '''
@@ -81,6 +146,19 @@ def respuesta_diez():
     plt.show()
 
 
+'''Los valores varían desde 0, donde se representa que el usuario 
+no ha reordenado ningún producto, hasta valores más altos, lo que indica 
+que casi todos los productos de ese usuario han sido reordenados. Sabiendo esto,
+podemos observar que un importante número de productos no son reodenados, lo que
+podría investigarse, podría ser resultado de productos de descuento en 
+promoción. Posteriormente vemos que la proporción de reordenes crece en al
+rededor de .5 y teniendo otro pico en 1. Se sugiere revisar si estamos ante
+una "canasta surtida" donde el cliente compra los productos de interés 
+y uso cotidiano y aprovecha para probar otros productos con descuento o
+promoción.'''
+
+
 respuesta_tres()
 respuesta_siete()
 respuesta_diez()
+respuesta_cuatro()
