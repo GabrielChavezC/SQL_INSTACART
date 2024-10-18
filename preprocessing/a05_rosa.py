@@ -22,6 +22,7 @@ LIMIT 20
 graf_6 = pd.read_sql_query(query_6, conn)
 print(graf_6)
 
+#los articulos mas populares son las Bananas, son los que mas sobresalen de los 20 mas populares
 
 # 11.¿Cuáles son los 20 principales artículos que las personas ponen primero en sus carritos?
 
@@ -35,6 +36,7 @@ LIMIT 20
 '''
 graf_11 = pd.read_sql_query(query_11, conn)
 print(graf_11)
+#Nuevamente las Bananas son los productos que los clientes ponen primero en su carrito, los productos organicos tambien destacan.
 
 # 4. Diferencia entre miércoles y sábados para 'order_hour_of_day'. Traza gráficos de barra para los dos días y describe las diferencias que veas.
 
@@ -43,7 +45,7 @@ query_4 ='''
 SELECT o.order_hour_of_day AS order_hour_of_day,
        COUNT(o.order_id) AS order_count,
        o.order_dow AS day_of_week
-FROM order_products o
+FROM order_products 
 WHERE o.order_dow IN ('3', '6')  -- 3 es miércoles, 6 es sábado
 GROUP BY o.order_hour_of_day, o.order_dow
 ORDER BY o.order_hour_of_day;
