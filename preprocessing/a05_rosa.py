@@ -115,3 +115,5 @@ plt.xticks(range(24))  # Asegúrate de que todas las horas estén representadas
 plt.legend()
 plt.grid()
 plt.show()
+
+#
