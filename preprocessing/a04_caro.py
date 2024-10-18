@@ -31,6 +31,16 @@ def respuesta_tres():
     plt.xticks(ticks=range(0, 30), labels=range(1, 31))
     plt.show()
 
+
+# COMENTARIO CONCLUYENDES DE LA GRÁFICA
+'''De acuerdo con los datos, observamos que los clientes tienden a realizar 
+un segundo pedido después de 7 días o 30 días, siendo estos los picos más 
+altos en la recurrencia de compras. Este patrón sugiere que los clientes 
+podrían estar planificando sus adquisiciones de manera semanal o mensual. 
+Sería recomendable analizar el tipo de productos solicitados en función de
+estos intervalos.'''
+
+
 # 4. Diferencia entre miércoles y sábados para `'order_hour_of_day'`. Traza gráficos de barra para los dos días y describe las diferencias que veas.
 
 
@@ -59,6 +69,13 @@ def respuesta_cuatro():
     ax.legend(['Miércoles', 'Sábado'])
     plt.show()
 
+
+'''La mayoría de las órdenes por cliente se concentra entre las primeras 5 
+a 10 compras, mostrando una disminución gradual a medida que aumenta el 
+número de órdenes. Esta tendencia puede deberse a diversas razones que no 
+se pueden identificar claramente en este gráfico. Sería útil analizar el 
+tiempo que el cliente lleva registrado en la plataforma y cuántas órdenes 
+ha realizado durante ese período para obtener una mejor comprensión del comportamiento.'''
 
 # 7. ¿Cuántos artículos compran normalmente las personas en un pedido? ¿Cómo es la distribución?
 
@@ -100,7 +117,16 @@ def respuesta_siete():
     plt.show()
 
 
+'''Se decide usar un gráfico de bigotes para poder delimitar el número 
+de artículos en cada pedido, considerando el límite del 3er cuartil. Esto
+nos lleva a delimitar nuestro gráfico hasta 70 artículos por pedido. 
+En el segundo gráfico, se observa que el punto máximo del gráfico se localiza
+en el número 5, visualmente podemos determinar que la mayoria de los pedidos
+serán solicitados por 1 hasta 10 pedidos, donde comienza un decremento gradual
+llegando a sus mínimos al rededor de 49 artículos.'''
+
 # 10. Para cada cliente, ¿qué proporción de sus productos ya los había pedido?
+
 
 def respuesta_diez():
     query10 = '''
@@ -118,6 +144,18 @@ def respuesta_diez():
     plt.xlabel('Proporción de Reordenes')
     plt.ylabel('Frecuencia')
     plt.show()
+
+
+'''Los valores varían desde 0, donde se representa que el usuario 
+no ha reordenado ningún producto, hasta valores más altos, lo que indica 
+que casi todos los productos de ese usuario han sido reordenados. Sabiendo esto,
+podemos observar que un importante número de productos no son reodenados, lo que
+podría investigarse, podría ser resultado de productos de descuento en 
+promoción. Posteriormente vemos que la proporción de reordenes crece en al
+rededor de .5 y teniendo otro pico en 1. Se sugiere revisar si estamos ante
+una "canasta surtida" donde el cliente compra los productos de interés 
+y uso cotidiano y aprovecha para probar otros productos con descuento o
+promoción.'''
 
 
 respuesta_tres()
