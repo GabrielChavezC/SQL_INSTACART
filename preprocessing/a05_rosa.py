@@ -5,6 +5,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import sqlite3
 import pandas as pd 
+import seaborn as sbn
 import matplotlib.pyplot as plt 
 
 
@@ -22,6 +23,24 @@ LIMIT 20
 graf_6 = pd.read_sql_query(query_6, conn)
 print(graf_6)
 
+#Graficando el resultado de la consulta
+plt.figure(figsize=(10, 6))
+
+# Crear la gráfica de barras con Matplotlib
+plt.barh(graf_6['product_name'], graf_6['count_products'], color='skyblue')
+
+# Añadir títulos y etiquetas
+plt.title('Top 20 productos más populares', fontsize=16)
+plt.xlabel('Número de productos vendidos')
+plt.ylabel('Nombre del producto')
+
+# Invertir el orden del eje y para que el producto más vendido esté arriba
+plt.gca().invert_yaxis()
+
+# Mostrar la gráfica
+plt.tight_layout()
+plt.show()
+
 #los articulos mas populares son las Bananas, son los que mas sobresalen de los 20 mas populares
 
 # 11.¿Cuáles son los 20 principales artículos que las personas ponen primero en sus carritos?
@@ -36,6 +55,24 @@ LIMIT 20
 '''
 graf_11 = pd.read_sql_query(query_11, conn)
 print(graf_11)
+
+#Graficando el resultado de la consulta
+plt.figure(figsize=(10, 6))
+
+# Crear la gráfica de barras con Matplotlib
+plt.barh(graf_11['product_name'], graf_11['add_to_cart_order'], color='skyblue')
+
+# Añadir títulos y etiquetas
+plt.title('Top 20 productos elegidos en primer lugar', fontsize=16)
+plt.xlabel('Número de productos vendidos')
+plt.ylabel('Nombre del producto')
+
+# Invertir el orden del eje y para que el producto más vendido esté arriba
+plt.gca().invert_yaxis()
+
+# Mostrar la gráfica
+plt.tight_layout()
+plt.show()
 #Nuevamente las Bananas son los productos que los clientes ponen primero en su carrito, los productos organicos tambien destacan.
 
 # 4. Diferencia entre miércoles y sábados para 'order_hour_of_day'. Traza gráficos de barra para los dos días y describe las diferencias que veas.
